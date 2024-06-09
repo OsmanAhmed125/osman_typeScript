@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from "react";
 import "./App.css";
-import InpuFiles from "./components/InputField"
+import InpuFiles from "./components/InputField";
 import TodoList from "./components/TodoList";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { Todo } from "./model";
@@ -10,7 +10,7 @@ import InputField from "./components/InputField";
 const App: React.FC = () => {
   const [todo, setTodo] = useState<string>("");
   const [todos, setTodos] = useState<Array<Todo>>([]);
-  const [CompletedTodos, setCompletedTodos] = useState<Array<Todo>>([]);
+  const [CompletedTodos, setCompletedTodos] = useState<Todo[]>([]);
 
   const handleAdd = (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,7 +56,11 @@ const App: React.FC = () => {
       complete.splice(destination.index, 0, add);
     }
 
-    setCompletedTodos(complete);
+    setCompletedTodos(
+      complete.map((todo) => {
+        return { todo: todo.todo, id: todo.id, isDone: true } as Todo;
+      })
+    );
     setTodos(active);
   };
 

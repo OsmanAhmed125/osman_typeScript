@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useRef } from "react";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
-import { MdDone } from "react-icons/md";
 import { Todo } from "./models/model";
 import { Draggable } from "react-beautiful-dnd";
+import "./styles/style.css";
 
 const SingleTodo: React.FC<{
   index: number;
@@ -31,14 +31,6 @@ const SingleTodo: React.FC<{
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
-  const handleDone = (id: number) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
-      )
-    );
-  };
-
   return (
     <Draggable draggableId={todo.id.toString()} index={index}>
       {(provided, snapshot) => (
@@ -62,21 +54,20 @@ const SingleTodo: React.FC<{
             <span className="todos__single--text">{todo.todo}</span>
           )}
           <div>
-            <span
-              className="icon"
-              onClick={() => {
-                if (!edit && !todo.isDone) {
-                  setEdit(!edit);
-                }
-              }}
-            >
-              <AiFillEdit />
-            </span>
+            {!todo.isDone && (
+              <span
+                className="icon findme"
+                onClick={() => {
+                  if (!edit && !todo.isDone) {
+                    setEdit(!edit);
+                  }
+                }}
+              >
+                <AiFillEdit />
+              </span>
+            )}
             <span className="icon" onClick={() => handleDelete(todo.id)}>
               <AiFillDelete />
-            </span>
-            <span className="icon" onClick={() => handleDone(todo.id)}>
-              <MdDone />
             </span>
           </div>
         </form>
